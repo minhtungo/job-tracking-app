@@ -13,9 +13,7 @@ export const Wrapper = styled.section`
     border-top: 5px solid var(--primary-500);
   }
 
-  h3 {
-    text-align: center;
-  }
+
   p {
     margin: 0;
     margin-top: 1rem;
@@ -31,4 +29,8 @@ export const Wrapper = styled.section`
     cursor: pointer;
     letter-spacing: var(--letterSpacing);
   }
+`;
+
+export const Title = styled.h3`
+  text-align: center;
 `;
