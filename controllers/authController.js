@@ -16,12 +16,21 @@ export const register = async (req, res) => {
   }
 
   const user = await User.create({ name, email, password });
-  res.status(StatusCodes.OK).json({ user });
+  const token = user.createJWT();
+  res.status(StatusCodes.OK).json({
+    user: {
+      email: user.email,
+      lastName: user.lastName,
+      name: user.name,
+      location: user.location,
+    },
+    token,
+    location: user.location,
+  });
 };
 export const login = async (req, res) => {
   res.send('login user');
 };
 export const updateUser = async (req, res) => {
   res.send('updateUser');
-
 };
