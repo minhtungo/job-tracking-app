@@ -24,8 +24,6 @@ const Register = () => {
     isLoading,
     showAlert,
     displayAlert,
-    registerUser,
-    loginUser,
     authenticateUser,
   } = useAppContext();
 
