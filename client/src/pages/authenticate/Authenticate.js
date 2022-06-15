@@ -5,8 +5,8 @@ import Alert from '../../components/alert/Alert';
 import FormRow from '../../components/form-row/FormRow';
 import Logo from '../../components/Logo/Logo';
 
-import { Wrapper, Title } from './Register.styles';
-import { useAppContext } from './../../context/appContext';
+import { Wrapper, Title } from './Authenticate.styles';
+import { useAppContext } from '../../context/appContext';
 
 const initialState = {
   name: '',
@@ -19,8 +19,15 @@ const Register = () => {
   const [values, setValues] = useState(initialState);
   const navigate = useNavigate();
 
-  const { user, isLoading, showAlert, displayAlert, registerUser } =
-    useAppContext();
+  const {
+    user,
+    isLoading,
+    showAlert,
+    displayAlert,
+    registerUser,
+    loginUser,
+    authenticateUser,
+  } = useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -39,9 +46,17 @@ const Register = () => {
     }
     const currentUser = { name, email, password };
     if (isMember) {
-      console.log('already a member');
+      authenticateUser({
+        currentUser,
+        endPoint: 'login',
+        alertText: 'Success! Redirecting...',
+      });
     } else {
-      registerUser(currentUser);
+      authenticateUser({
+        currentUser,
+        endPoint: 'register',
+        alertText: 'Success! Redirecting...',
+      });
     }
 
     console.log(values);
