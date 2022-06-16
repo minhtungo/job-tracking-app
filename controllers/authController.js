@@ -29,6 +29,7 @@ export const register = async (req, res) => {
     location: user.location,
   });
 };
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -49,6 +50,24 @@ export const login = async (req, res) => {
   user.password = undefined;
   res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
+
 export const updateUser = async (req, res) => {
-  res.send('updateUser');
+  const { email, name, lastName, location } = req.body;
+
+  if (!email || !name || !lastName || !location) {
+    throw new BadRequestError('Please provide all values');
+  }
+
+  const user = await User.findOne({ _id: req.user.userId });
+
+  user.email = email;
+  user.name = name;
+  user.lastName = lastName;
+  user.location = location;
+
+  await user.save();
+
+  const token = user.createJWT();
+
+  res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
