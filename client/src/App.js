@@ -5,7 +5,7 @@ import Error from './pages/error/Error';
 import Stats from './pages/dashboard/Stats';
 import Profile from './pages/dashboard/Profile';
 import AddJob from './pages/dashboard/AddJob';
-import AllJob from './pages/dashboard/AllJob';
+import AllJobs from './pages/dashboard/AllJobs';
 import Layout from './pages/dashboard/Layout';
 import ProtectedRoute from './pages/ProtectedRoute';
 
@@ -22,7 +22,7 @@ function App() {
           }
         >
           <Route index element={<Stats />} />
-          <Route path='/all-jobs' element={<AllJob />} />
+          <Route path='/all-jobs' element={<AllJobs />} />
           <Route path='/add-job' element={<AddJob />} />
           <Route path='/profile' element={<Profile />} />
         </Route>

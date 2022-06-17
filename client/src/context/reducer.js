@@ -121,6 +121,35 @@ const reducer = (state, action) => {
         alertType: 'danger',
         alertText: action.payload.msg,
       };
+    case ACTION_TYPES.GET_JOBS_BEGIN:
+      return {
+        ...state,
+        isLoading: true,
+        showAlert: false,
+      };
+    case ACTION_TYPES.GET_JOBS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        jobs: action.payload.jobs,
+        totalJobs: action.payload.totalJobs,
+        numOfPages: action.payload.numOfPages,
+      };
+    case ACTION_TYPES.SET_EDIT_JOB:
+      const job = state.jobs.find((job) => job.id === action.payload.id);
+      const { _id, position, company, jobLocation, jobType, status } = job;
+
+      return {
+        ...state,
+        isEditing: true,
+        editJobId: _id,
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status,
+      };
+
     default:
       throw new Error(`No such action: ${action.type}`);
   }
