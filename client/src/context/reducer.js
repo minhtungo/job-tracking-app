@@ -149,7 +149,32 @@ const reducer = (state, action) => {
         jobType,
         status,
       };
-
+    case ACTION_TYPES.DELETE_JOB_BEGIN:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ACTION_TYPES.EDIT_JOB_BEGIN:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case ACTION_TYPES.EDIT_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'success',
+        alertText: 'Job Updated',
+      };
+    case ACTION_TYPES.EDIT_JOB_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'danger',
+        alertText: action.payload.msg,
+      };
     default:
       throw new Error(`No such action: ${action.type}`);
   }
