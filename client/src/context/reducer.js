@@ -94,7 +94,7 @@ const reducer = (state, action) => {
 
         jobLocation: state.userLocation || '',
         jobType: 'Full-time',
-        status: 'Pending',
+        status: 'pending',
       };
       return {
         ...state,
@@ -174,6 +174,19 @@ const reducer = (state, action) => {
         showAlert: true,
         alertType: 'danger',
         alertText: action.payload.msg,
+      };
+    case ACTION_TYPES.SHOW_STATS_BEGIN:
+      return {
+        ...state,
+        isLoading: true,
+        showAlert: false,
+      };
+    case ACTION_TYPES.SHOW_STATS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        stats: action.payload.stats,
+        monthlyApplications: action.payload.monthlyApplications,
       };
     default:
       throw new Error(`No such action: ${action.type}`);

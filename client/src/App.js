@@ -2,12 +2,12 @@ import Home from './pages/home/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Register from './pages/authenticate/Authenticate';
 import Error from './pages/error/Error';
-import Stats from './pages/dashboard/Stats';
 import Profile from './pages/dashboard/Profile';
 import AddJob from './pages/dashboard/AddJob';
 import AllJobs from './pages/dashboard/AllJobs';
 import Layout from './pages/dashboard/Layout';
 import ProtectedRoute from './pages/ProtectedRoute';
+import Stats from './components/stats/Stats';
 
 function App() {
   return (

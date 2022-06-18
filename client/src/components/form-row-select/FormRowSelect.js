@@ -13,7 +13,7 @@ const FormRowSelect = ({ labelText, name, value, handleChange, list }) => {
         {list.map((item, index) => {
           return (
             <option key={index} value={item}>
-              {item}
+              {item.charAt(0).toUpperCase() + item.slice(1)}
             </option>
           );
         })}

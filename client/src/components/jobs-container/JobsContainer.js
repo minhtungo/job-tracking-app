@@ -17,7 +17,7 @@ const JobsContainer = () => {
   if (jobs.length === 0) {
     return (
       <Wrapper>
-        <h2>No job matches...</h2>
+        <h4>No job found.</h4>
       </Wrapper>
     );
   }

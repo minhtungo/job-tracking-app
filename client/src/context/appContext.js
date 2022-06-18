@@ -26,13 +26,15 @@ export const initialState = {
   jobLocation: userLocation || '',
   jobTypeOptions: ['Full-time', 'Part-time', 'Remote', 'Internship'],
   jobType: 'Full-time',
-  statusOptions: ['Pending', 'Interview', 'Declined'],
-  status: 'Pending',
+  statusOptions: ['pending', 'interview', 'declined'],
+  status: 'pending',
   // job
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
   page: 1,
+  stats: {},
+  monthlyApplications: [],
 };
 
 const AppContext = React.createContext();
@@ -207,7 +209,7 @@ export const AppProvider = ({ children }) => {
         jobType,
         status,
       });
-       dispatch({ type: ACTION_TYPES.EDIT_JOB_SUCCESS });
+      dispatch({ type: ACTION_TYPES.EDIT_JOB_SUCCESS });
       dispatch({ type: ACTION_TYPES.CLEAR_VALUES });
     } catch (error) {
       if (error.response.status === 401) return;
@@ -223,6 +225,22 @@ export const AppProvider = ({ children }) => {
     } catch (error) {
       console.log(error.response);
       logoutUser();
+    }
+  };
+
+  const showStats = async () => {
+    dispatch({ type: ACTION_TYPES.SHOW_STATS_BEGIN });
+    try {
+      const { data } = await authFetch('/jobs/stats');
+      dispatch({
+        type: ACTION_TYPES.SHOW_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultStats,
+          monthlyApplications: data.monthlyApplications,
+        },
+      });
+    } catch (error) {
+      console.log(error.response);
     }
   };
 
@@ -242,6 +260,7 @@ export const AppProvider = ({ children }) => {
         setEditJob,
         deleteJob,
         editJob,
+        showStats,
       }}
     >
       {children}
