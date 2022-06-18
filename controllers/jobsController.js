@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import NotFoundError from './../errors/not-found.js';
 import checkPermissions from '../utils/checkPermissions.js';
 
+import moment from 'moment';
 import mongoose from 'mongoose';
 
 export const createJob = async (req, res) => {
@@ -18,7 +19,40 @@ export const createJob = async (req, res) => {
 };
 
 export const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({ createdBy: req.user.userId });
+  const { status, jobType, sort, search } = req.query;
+
+  const queryObject = {
+    createdBy: req.user.userId,
+  };
+
+  if (status && status !== 'all') {
+    queryObject.status = status;
+  }
+
+  if (jobType && jobType !== 'all') {
+    queryObject.jobType = jobType;
+  }
+
+  if (search) {
+    queryObject.position = { $regex: search, $options: 'i' };
+  }
+
+  let result = Job.find(queryObject);
+
+  if (sort === 'latest') {
+    result = result.sort('-createdAt');
+  }
+  if (sort === 'oldest') {
+    result = result.sort('createdAt');
+  }
+  if (sort === 'a-z') {
+    result = result.sort('position');
+  }
+  if (sort === 'z-a') {
+    result = result.sort('-position');
+  }
+
+  const jobs = await result;
 
   res
     .status(StatusCodes.OK)
@@ -79,6 +113,32 @@ export const showStats = async (req, res) => {
     declined: stats.declined || 0,
   };
 
-  let monthlyApplications = [];
+  let monthlyApplications = await Job.aggregate([
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    {
+      $group: {
+        _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { '_id.year': -1, '_id.month': -1 } },
+    { $limit: 6 },
+  ]);
+
+  monthlyApplications = monthlyApplications
+    .map((item) => {
+      const {
+        _id: { year, month },
+        count,
+      } = item;
+      // accepts 0-11
+      const date = moment()
+        .month(month - 1)
+        .year(year)
+        .format('MMM Y');
+      return { date, count };
+    })
+    .reverse();
+
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };

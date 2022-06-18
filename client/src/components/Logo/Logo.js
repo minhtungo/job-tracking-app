@@ -1,6 +1,8 @@
-import logo from '../../assets/images/logo.svg';
-
 const Logo = () => {
-  return <img src={logo} alt='logo' className='logo' />;
+  return (
+    <h3 className='logo' style={{ color: '#00b0ff', fontWeight: 'bold' }}>
+      Job Tracking
+    </h3>
+  );
 };
 export default Logo;

@@ -188,6 +188,14 @@ const reducer = (state, action) => {
         stats: action.payload.stats,
         monthlyApplications: action.payload.monthlyApplications,
       };
+    case ACTION_TYPES.CLEAR_FILTERS:
+      return {
+        ...state,
+        search: '',
+        searchStatus: 'all',
+        searchType: 'all',
+        sort: 'latest',
+      };
     default:
       throw new Error(`No such action: ${action.type}`);
   }
