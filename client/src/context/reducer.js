@@ -1,5 +1,4 @@
 import { ACTION_TYPES } from './actions';
-import { initialState } from './appContext';
 
 const reducer = (state, action) => {
   switch (action.type) {
