@@ -92,7 +92,7 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('location', location);
   };
 
-  const removeUserFromLocalStorage = ({ user, token, location }) => {
+  const removeUserFromLocalStorage = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     localStorage.removeItem('location');
