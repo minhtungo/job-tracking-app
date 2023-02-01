@@ -1,6 +1,7 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import cors from 'cors';
 
 import helmet from 'helmet';
 import xss from 'xss-clean';
@@ -8,6 +9,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 
 import express from 'express';
 const app = express();
+app.use(cors());
 
 import dotenv from 'dotenv';
 dotenv.config();
