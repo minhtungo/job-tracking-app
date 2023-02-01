@@ -102,7 +102,7 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: ACTION_TYPES.AUTHENTICATE_USER_START });
     try {
       const { data } = await axios.post(
-        `/api/v1/auth/${endPoint}`,
+        `https://job-tracking-ankq.onrender.com/api/v1/auth/${endPoint}`,
         currentUser
       );
       const { user, token, location } = data;
@@ -132,7 +132,10 @@ export const AppProvider = ({ children }) => {
   const updateUser = async (currentUser) => {
     dispatch({ type: ACTION_TYPES.UPDATE_USER_START });
     try {
-      const { data } = await authFetch.patch('/auth/updateUser', currentUser);
+      const { data } = await authFetch.patch(
+        'https://job-tracking-ankq.onrender.com/api/v1/auth/updateUser',
+        currentUser
+      );
       const { user, token, location } = data;
 
       dispatch({
@@ -162,13 +165,16 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: ACTION_TYPES.CREATE_JOB_BEGIN });
     try {
       const { position, company, jobLocation, jobType, status } = state;
-      await authFetch.post('/jobs', {
-        position,
-        company,
-        jobLocation,
-        jobType,
-        status,
-      });
+      await authFetch.post(
+        'https://job-tracking-ankq.onrender.com/api/v1/jobs',
+        {
+          position,
+          company,
+          jobLocation,
+          jobType,
+          status,
+        }
+      );
       dispatch({ type: ACTION_TYPES.CREATE_JOB_SUCCESS });
       dispatch({ type: ACTION_TYPES.CLEAR_VALUES });
     } catch (error) {
@@ -183,7 +189,7 @@ export const AppProvider = ({ children }) => {
 
   const getJobs = async () => {
     const { search, searchStatus, searchType, sort } = state;
-    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+    let url = `https://job-tracking-ankq.onrender.com/api/v1/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
     if (search) {
       url = url + `&search=${search}`;
     }
@@ -211,13 +217,16 @@ export const AppProvider = ({ children }) => {
     try {
       const { position, company, jobLocation, jobType, status } = state;
 
-      await authFetch.patch(`/jobs/${state.editJobId}`, {
-        position,
-        company,
-        jobLocation,
-        jobType,
-        status,
-      });
+      await authFetch.patch(
+        `https://job-tracking-ankq.onrender.com/api/v1/jobs/${state.editJobId}`,
+        {
+          position,
+          company,
+          jobLocation,
+          jobType,
+          status,
+        }
+      );
       dispatch({ type: ACTION_TYPES.EDIT_JOB_SUCCESS });
       dispatch({ type: ACTION_TYPES.CLEAR_VALUES });
     } catch (error) {
@@ -229,7 +238,9 @@ export const AppProvider = ({ children }) => {
   const deleteJob = async (jobId) => {
     dispatch({ type: ACTION_TYPES.DELETE_JOB_BEGIN });
     try {
-      await authFetch.delete(`/jobs/${jobId}`);
+      await authFetch.delete(
+        `https://job-tracking-ankq.onrender.com/api/v1/jobs/${jobId}`
+      );
       getJobs();
     } catch (error) {
       logoutUser();
@@ -239,7 +250,9 @@ export const AppProvider = ({ children }) => {
   const showStats = async () => {
     dispatch({ type: ACTION_TYPES.SHOW_STATS_BEGIN });
     try {
-      const { data } = await authFetch('/jobs/stats');
+      const { data } = await authFetch(
+        'https://job-tracking-ankq.onrender.com/api/v1/jobs/stats'
+      );
       dispatch({
         type: ACTION_TYPES.SHOW_STATS_SUCCESS,
         payload: {
