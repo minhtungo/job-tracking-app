@@ -49,7 +49,7 @@ export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const authFetch = axios.create({
-    baseURL: '/api/v1/',
+    baseURL: 'https://job-tracking-ankq.onrender.com/api/v1/',
   });
 
   authFetch.interceptors.request.use(
